@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Caboose demo</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="ajaxInclude.min.js"></script>
+	<script>
+		var url = window.location.href; // For demo purposes only
+
+
+		// Envoke the fetching on doc ready
+		$(function() {
+
+			// This condition just checking to see if you're using the wait demo or not; nothing fancy
+			if (url.indexOf("wait") <= 0) {
+				$("[data-after],[data-before],[data-replace], [data-append]").ajaxInclude( { proxy: "./php/caboose.php?wrap&files=" }  );
+			} else {
+				$("#trigger").show().on("click", function() {
+					$("[data-after],[data-before],[data-replace],[data-append]").ajaxInclude( { proxy: "./php/caboose.php?wrap&files=" }  );
+				});
+			}
+		});
+  	</script>
+	<style>
+		.box { border: solid 1px #999; padding: 10px; margin: 10px 0; }
+	</style>
+</head>
+<body>
+	<h1>Caboose demo</h1>
+	<ul>
+		<li><a href="demo.html?wait">Demo using an event</a></li>
+		<li><a href="demo.html">Demo using onready</a></li>
+	</ul>
+	<p>
+		<button type="button" id="trigger" style="display:none;">Trigger on click</button>
+	</p>	
+	<hr />
+
+	<div class="box">
+		<h3 data-before="beforeit/name:Gung Ho/id:2">Before me</h3>
+	</div>
+	<div class="box">
+		<h3 data-after="afterit/name:Duke/id:3">After me</h3>
+	</div>
+	<div class="box">
+		<h3 data-append="appendit/name:Major Bludd/id:6">Append me</h3>
+	</div>
+	<div class="box">
+		<h3 data-replace="replaceit/name:Shipwreck/id:4">Replace me</h3>
+	</div>
+	<div class="box">
+		<h3 data-after="file/content.html">Content after me</h3>
+	</div>
+
+	<h5 data-after="afterit/name:Destro/id:5" data-target="#target">I'm a trigger, nothing will happen to me</h5>
+	<div class="box">
+		<h3 id="target">Target me, after me</h3>
+	</div>
+
+</body>
+</html>
