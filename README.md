@@ -53,6 +53,7 @@ Caboose is primarily a backend handler that works with the Ajax-include Pattern.
 
 ### Defining routes
 Caboose runs off routes that you define. Each route should match up to an alias that is named in the key:value pairs you provide on the frontend. 
+	
 	class cabooseRoutes extends caboose {
 	    function __construct($custom=array()) { parent::__construct($custom); } // DO NOT REMOVE
 
