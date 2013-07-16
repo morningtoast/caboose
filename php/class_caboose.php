@@ -1,19 +1,28 @@
 <?php
-
+/*
+	Caboose for Ajax-include Pattern
+	2013, Brian Vaughn, @morningtoast
+	https://github.com/morningtoast/caboose
+*/
 
 class caboose {
-	function caboose($rules, $custom=array()) {
+	var $version = "1.1";
+
+	function __construct($custom=array()) { 
 		$this->settings = array(
-			"root"      => $_SERVER["DOCUMENT_ROOT"],
+			"root"      => "../",
 			"mime"      => "text/html",
-			"statickey" => "file"
+			"statickey" => "file",
+			"prefix"    => "route_",
+			"notfound"  => "Content not found"
 		);
 
-		$this->rules    = $rules;
 		$this->settings = array_merge($this->settings, $custom);
 		$this->list     = $_REQUEST["files"];
 		$this->wrapper  = isset($_REQUEST[ "wrap" ]);
 		$this->data     = array();
+
+		$this->settings["statickey"] = $this->settings["prefix"].$this->settings["statickey"];
 
 		if ($this->list) {
 			$this->sources = explode(",", $this->list);
@@ -27,20 +36,22 @@ class caboose {
 
 		foreach ($this->sources as $source) {
 			$a_args     = explode("/", $source);
-			$alias      = array_shift($a_args);
-			$a_this     = array("id"=>$source, "html"=>"Content not found");
+			$alias      = $this->settings["prefix"].array_shift($a_args);
+			$a_this     = array("id"=>$source, "html"=>$this->settings->notfound);
 			$partial    = false;
 
-			if (method_exists($this->rules, $alias)) {
+			if (method_exists($this, $alias)) {
 				foreach ($a_args as $pair) {
 					$a_set             = explode(":", $pair);
 					$a_data[$a_set[0]] = $a_set[1];
 				}
 
-				$a_this["html"] = $this->rules->$alias($a_data);
+				$a_this["html"] = $this->$alias($a_data);
 			} else {
 				if ($alias == $this->settings["statickey"]) {
-					$filepath = $this->settings["root"]."/".implode("/",$a_args);
+					
+					$filepath = $this->settings["root"].implode("/",$a_args);
+
 					if (file_exists($filepath)) {
 						$a_this["html"] = file_get_contents($filepath);
 					}

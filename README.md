@@ -11,10 +11,14 @@ handler which would then use them to generate markup.
 ## Inspiration
 The Caboose class is a replacement for the [Quickconcat handler][concat] written by the Filament Group.
 
-All dependcies are included in this repo including a modified version of the [Ajax-include Pattern][repo] from Filament Group.
+This repo including a modified version of the [Ajax-include Pattern][repo] from Filament Group.
+
 
 [repo]: https://github.com/filamentgroup/Ajax-Include-Pattern/
 [concat]: https://github.com/filamentgroup/quickconcat
+
+## Dependencies
+jQuery 1.5+ is required for the Ajax-include Pattern plugin and is not included
 
 
 ## Frontend
@@ -47,19 +51,20 @@ Here the file located at `content/includes/partial.html` would be read and its c
 ## Backend (PHP)
 Caboose is primarily a backend handler that works with the Ajax-include Pattern. Rather than simply read and return a file that is already compiled, Caboose takes the key:value data you pass to then do what you need, in theory, pass those values to other methods to generate markup dynamically.
 
-### Defining rules (routing)
-Caboose runs off an object of "rules" that you define. Each rule (method) is essentially an alias that is named in the key:value pairs you provide on the frontend. 
+### Defining routes
+Caboose runs off routes that you define. Each route should match up to an alias that is named in the key:value pairs you provide on the frontend. 
+	class cabooseRoutes extends caboose {
+	    function __construct($custom=array()) { parent::__construct($custom); } // DO NOT REMOVE
 
-    class cabooseRules {
-        function gijoe($data) {
-            $html = "Name: ".$data["name"]." (".$data["id"].")";
-            return($html);
-        }
-    }
+		function route_gijoe($data) {
+			$html = "Name: ".$data["name"]." (".$data["id"].")";
+			return($html);
+		}
+	}
 
-In the above example, the method `gijoe` corresponds to the first segment used in the data attribute of the frontend markup (see previous example). Every rule method is passed the key:value pairs as an associative array.
+In the above example, the method `route_gijoe` corresponds to the first segment used in the data attribute of the frontend markup (see previous example). Every rule method is passed the key:value pairs as an associative array.
 
-Every rule method should return complete markup. That markup is then used to insert into the page based on the data attribute rules you've defined.
+Every rule method should return complete markup. That markup is then used to inserted into the DOM based on the data attribute rules you've defined.
 
 ## More reading
 You can check out the original [Ajax-include Pattern][repo] for more documentation and options that you can use within your markup. Caboose is a backend handler that works with the Ajax-include Pattern, however the JS included here is slightly amended so be aware that Caboose may not work exactly as expected if using other version of the Javascript.
