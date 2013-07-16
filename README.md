@@ -1,6 +1,6 @@
 # Caboose for Ajax Include Pattern
 
-* Copyright 2013, Brian Vaughn, @morningtoast
+* 2013, Brian Vaughn, @morningtoast
 
 ## Case
 I found the Ajax-include Pattern from Filament Group quite handy but I needed a way to 
@@ -18,7 +18,7 @@ This repo including a modified version of the [Ajax-include Pattern][repo] from 
 [concat]: https://github.com/filamentgroup/quickconcat
 
 ## Dependencies
-jQuery 1.5+ is required for the Ajax-include Pattern plugin and is not included
+jQuery 1.8+ is required for the Ajax-include Pattern plugin and is not included
 
 
 ## Frontend
